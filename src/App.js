@@ -1,5 +1,6 @@
 import React, { useState } from 'react'; // inputting react(one big object), and destructuring of out the object
 import './App.css';
+import Todo from './components/TodoComponent';
 
 function App() {
   /* below array destructure synax is equivalent to:
@@ -68,23 +69,14 @@ const setNewTodo = newTodoStateArr[1]; //stores 2nd item in array
         </div>
       </form >
       {todos.map((todo, i) => {
-        const todoClasses = ["bold", "italic"];
-
-        if (todo.complete) {
-          todoClasses.push('line-through');
-        }
         return (
-          <div key={i}>
-            <input onChange={(event) => {
-              handleToggleComplete(i);
-            }} type="checkbox" checked={todo.completed} />
-            <span className={todoClasses.join(' ')}>{todo.text}</span>
-            <button
-              onClick={(event) => {
-                handleTodoDelete(i);
-
-              }}>Delete</button>
-          </div>
+          <TodoComponent
+            key={i}
+            i={i}
+            todo={todo}
+            handleToggleComplete={handleToggleComplete}
+            handeleTodoDelete={handleTodoDelete}
+          />
         );
       })}
     </div >
