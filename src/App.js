@@ -35,6 +35,19 @@ const setNewTodo = newTodoStateArr[1]; //stores 2nd item in array
       return i !== delIdx;
     });
     setTodos(filteredTodos);
+  };
+
+  const handleToggleComplete = (idx) => {
+    const updatedTodos = todos.map((todo, i) => {
+      if (i === idx) {
+        todo.complete = !todo.complete;
+        // To avoid mutating the todo directly, do this:
+        // const updatedTodo = { ...todo, complete: !todo.complete};
+        // return updatedTodo;
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
   }
 
   return (
@@ -55,17 +68,25 @@ const setNewTodo = newTodoStateArr[1]; //stores 2nd item in array
         </div>
       </form >
       {todos.map((todo, i) => {
+        const todoClasses = ["bold", "italic"];
+
+        if (todo.complete) {
+          todoClasses.push('line-through');
+        }
         return (
           <div key={i}>
-            <input type="checkbox" checked={todo.completed} />
-            <span>{todo}</span>
+            <input onChange={(event) => {
+              handleToggleComplete(i);
+            }} type="checkbox" checked={todo.completed} />
+            <span className={todoClasses.join(' ')}>{todo.text}</span>
             <button
               onClick={(event) => {
                 handleTodoDelete(i);
+
               }}>Delete</button>
           </div>
         );
-      })};
+      })}
     </div >
   );
 }
